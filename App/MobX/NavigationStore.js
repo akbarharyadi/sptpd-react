@@ -8,7 +8,7 @@ class NavigationStore {
     index: 0,
     routes: [
       { key: "LaunchScreen", routeName: "LaunchScreen" },
-      //{ key: "LoginScreen", routeName: "LoginScreen" }
+      // { key: "LoginScreen", routeName: "LoginScreen" }
     ],
   }
 

@@ -1,6 +1,7 @@
 import React from 'react'
-import { ScrollView, Text, Image, View } from 'react-native'
+import { ScrollView, Image, View } from 'react-native'
 import { Colors, Images } from '../Themes'
+import { Container, Content, Thumbnail, Text } from 'native-base';
 
 import { observer, inject } from 'mobx-react/native';
 
@@ -19,7 +20,6 @@ export default class LaunchScreen extends React.Component {
   constructor(props){
     super(props);
     this.user = props.userStore;
-
     this.search = 'ignite'
   }
 
@@ -56,13 +56,17 @@ export default class LaunchScreen extends React.Component {
     const {navigate, setParams, state} = this.props.navigation
     navigate("LoginScreen", {title: "LoginScreen", parentKey: state.key})
   }
-  openMusic = () => {
-    const {navigate, setParams, state} = this.props.navigation;
-    navigate("MusicScreen", { search: this.search, title: `Results for: ${this.search}`, parentKey: state.key })
-  }
   render () {
     return (
-      <View style={styles.mainContainer}>
+      <Container>
+        <Content>
+          <Thumbnail source={{uri: Images.logoESptpd}} />
+          <Text>
+            This is Content Section
+          </Text>
+        </Content>
+      </Container>
+      /*<View style={styles.mainContainer}>
         <Image source={Images.background} style={styles.backgroundImage} resizeMode='stretch' />
         <ScrollView style={styles.container}>
           <View style={styles.centered}>
@@ -82,7 +86,7 @@ export default class LaunchScreen extends React.Component {
           />
 
         </ScrollView>
-      </View>
+      </View>*/
     )
   }
 }

@@ -11,7 +11,8 @@ const PrimaryNav = StackNavigator({
   LaunchScreen: {
     screen: LaunchScreen,
     navigationOptions: () => ({
-			headerVisible: false
+			title: 'Home Page',
+      header: null
 		})
   },
   LoginScreen: {
@@ -19,9 +20,6 @@ const PrimaryNav = StackNavigator({
     navigationOptions: () => ({
 			title: 'Login'
 		})
-  },
-  MusicScreen: {
-    screen: MusicScreen,
   }
 }, {
   // Default config for all screens
