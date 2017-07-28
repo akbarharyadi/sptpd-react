@@ -3,7 +3,6 @@ export default {
   login: (email, password, simulateWrong = false) => {
     return new Promise(function(resolve, reject) {
       if (!simulateWrong) {
-
         const data = require('../Fixtures/login.json');
         setTimeout(()=>{
           resolve({
@@ -11,14 +10,10 @@ export default {
           data: data
           })
         }, 1000);
-
-
-
       } else {
-        reject({
-          ok: false,
-          error: 'User not valid'
-        });  // error, rejected
+        setTimeout(()=>{
+          reject(Error(''))  // error, rejected
+        }, 1000);
       }
     });
   },

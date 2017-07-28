@@ -7,7 +7,9 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Keyboard
- } from 'react-native'
+ } from 'react-native';
+
+ import { Form, Input, Item, Label, Card, CardItem, Body, Container, Content } from 'native-base';
 
 import Spinner from '../Components/Spinner';
 
@@ -34,15 +36,16 @@ import styles from './Styles/LoginScreenStyles'
 class LoginScreen extends React.Component {
 
   constructor(props) {
-
-
-
     super(props);
+    
+    const { userStore } = this.props;
+
+    userStore.msg = '';
 
     this.state = {
 
-      email: 'reactnative@infinite.red',
-      password: 'password'
+      user: '',
+      password: ''
 
 
     };
@@ -66,20 +69,26 @@ class LoginScreen extends React.Component {
 
     const { userStore } = this.props;
 
-    const { email, password } = this.state;
+    const { user, password } = this.state;
 
-    userStore.login(email, password);
+    userStore.login(user, password);
 
 
   };
 
   errorMessage = () => {
-    const { error } = this.props;
-    if (error) {
+    const { userStore } = this.props;
+    if (userStore.msg) {
       return (
-        <Text style={[styles.errorMessage, styles.center]}>
-          {error}
-        </Text>
+              <Card transparent>
+                <CardItem>
+                  <Body>
+                    <Text style={[styles.errorMessage, styles.center, styles.errorText]}>
+                      {userStore.msg}
+                    </Text>
+                  </Body>
+                </CardItem>
+              </Card>
       );
     }
   };
@@ -107,26 +116,23 @@ class LoginScreen extends React.Component {
 
 
 
-  renderEmailField = () => {
+  renderUserField = () => {
 
     const { userStore } = this.props;
-    const { email } = this.state;
+    const { user } = this.state;
 
 
     return (
-      <TextInput
-        ref="email"
-        style={styles.textInput}
-        value={email}
+      <Input
+        ref="user"
+        value={user}
         editable={!userStore.fetching}
         keyboardType="default"
         returnKeyType="next"
         autoCapitalize="none"
         autoCorrect={false}
-        onChangeText={ email => this.setState({ email }) }
-        underlineColorAndroid="transparent"
+        onChangeText={ user => this.setState({ user }) }
         onSubmitEditing={() => this.refs.password.focus()}
-        placeholder={I18n.t('email')}
       />
     );
   }
@@ -138,9 +144,8 @@ class LoginScreen extends React.Component {
 
 
     return (
-      <TextInput
+      <Input
         ref='password'
-        style={styles.textInput}
         value={password}
         editable={!userStore.fetching}
         keyboardType='default'
@@ -149,9 +154,8 @@ class LoginScreen extends React.Component {
         autoCorrect={false}
         secureTextEntry
         onChangeText={password => this.setState({ password })}
-        underlineColorAndroid='transparent'
         onSubmitEditing={()=>{this.handleSubmit()}}
-        placeholder={I18n.t('password')} />
+         />
     )
   }
 
@@ -161,18 +165,19 @@ class LoginScreen extends React.Component {
     return (
       <View>
         <View style={styles.form}>
-          <View style={styles.row}>
-            {this.renderEmailField()}
-          </View>
-
-          <View style={styles.row}>
-            {this.renderPasswordField()}
-          </View>
-
-          {this.errorMessage()}
-          {this.loginButton()}
+          <Form>
+              <Item floatingLabel>
+                <Label>Username</Label>
+                {this.renderUserField()}
+              </Item>
+              <Item floatingLabel last>
+                <Label>Password</Label>
+                {this.renderPasswordField()}
+              </Item>
+              {this.errorMessage()}
+              {this.loginButton()}
+          </Form>
         </View>
-
       </View>
     );
 
@@ -190,10 +195,12 @@ class LoginScreen extends React.Component {
           keyboardShouldPersistTaps="always"
         >
           <KeyboardAvoidingView behavior="position">
-            <Image
-              source={Images.logo}
-              style={styles.logo}
-            />
+            <View style={{paddingTop: 15}}>
+              <Image
+                source={Images.logoPemda}
+                style={styles.logo}
+              />
+            </View>
 
             {this.createForm()}
 

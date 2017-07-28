@@ -26,7 +26,7 @@ const PrimaryNav = StackNavigator({
   headerMode:'screen',
   navigationOptions: ({ navigation }) => ({
     title: navigation.state && navigation.state.params && navigation.state.params.title,
-    headerTintColor: Colors.fire,
+    headerTintColor: Colors.black,
     headerStyle: styles.header
 
   })

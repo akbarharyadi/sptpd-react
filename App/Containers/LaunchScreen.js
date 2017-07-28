@@ -5,6 +5,8 @@ import { Container, Content, Thumbnail, Text } from 'native-base';
 
 import { observer, inject } from 'mobx-react/native';
 
+import { BlurView, VibrancyView } from 'react-native-blur';
+
 import RoundedButton from '../Components/RoundedButton';
 import Spinner from '../Components/Spinner';
 
@@ -58,16 +60,25 @@ export default class LaunchScreen extends React.Component {
   }
   render () {
     return (
-      <Container>
-        <Content>
-          <Thumbnail source={{uri: Images.logoESptpd}} />
-          <Text>
-            This is Content Section
-          </Text>
-        </Content>
-      </Container>
+      <Image source={Images.logoBgSptpd} style={styles.backgroundImage}>
+        <Container style={styles.mainContainer}>
+          <ScrollView style={styles.container}>
+            <Content>
+              <View style={styles.centered}>
+                <Image source={Images.logoESptpd} style={styles.logo} resizeMode='stretch' />
+              </View>
+              <View style={styles.section} >
+                <Text style={styles.sectionText}>
+                  Selamat datang di E-SPTPD Purwakarta.{"\n"}
+                  Untuk melanjutkan silahkan login terlebih dahulu.
+                </Text>
+              </View>
+              { this.loginLogout() }
+            </Content>
+          </ScrollView>
+        </Container>
+      </Image>
       /*<View style={styles.mainContainer}>
-        <Image source={Images.background} style={styles.backgroundImage} resizeMode='stretch' />
         <ScrollView style={styles.container}>
           <View style={styles.centered}>
             <Image source={Images.appclon} style={styles.logo} />

@@ -21,7 +21,9 @@ const images = {
   hamburger: require('../Images/Icons/hamburger.png'),
   backButton: require('../Images/Icons/back-button.png'),
   closeButton: require('../Images/Icons/close-button.png'),
-  logoESptpd: require('../Images/logo-e-sptpd.png')
+  logoESptpd: require('../Images/logo-e-sptpd.png'),
+  logoBgSptpd: require('../Images/bg-body-login.png'),
+  logoPemda: require('../Images/logo-pemda.png')
 }
 
 export default images

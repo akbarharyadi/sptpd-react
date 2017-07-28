@@ -19,6 +19,7 @@ console.log(DebugConfig.useFixtures);
 class UserStore {
 
   @persist @observable session = null;
+  @persist @observable msg = '';
   @observable hydrated = false;
   @observable fetching = false;
 
@@ -37,24 +38,35 @@ class UserStore {
 
   }
 
-  login(email, password) {
-
-    console.log('email',email);
+  login(username, password) {
+    
+    console.log('email',username);
     console.log('password',password);
-
     this.fetching = true;
-    api.login(email, password)
+    api.login(username, password)
     .then((response) => {
       console.log('response login',response);
-      if (response.ok && response.data) {
+      if (response.ok) {
         this.fetching = false;
-        console.log('session:',response.data.session);
-        this.session = response.data.session;
-
+        if(response.data.status == 'success') {
+          console.log('session:',response.data.session);
+          this.session = response.data.user;
+          this.msg = response.data.message;
+        } else {
+          this.session = null;
+          this.msg = response.data.message;
+        }
       }else{
         this.fetching = false;
         this.session = null;
+        this.msg = response.problem;
       }
+    })
+    .catch((e) => { 
+      this.fetching = false;
+      this.session = null;
+      console.log(e)
+      this.msg = e;
     });
   }
 

@@ -1,8 +1,9 @@
 // a library to wrap and simplify api calls
 import apisauce from 'apisauce'
+import queryString from 'query-string'
 
 // our "constructor"
-const create = (baseURL = 'https://api.spotify.com/v1/') => {
+const create = (baseURL = 'http://192.168.11.97/sptpd-api/web/') => {
   // ------
   // STEP 1
   // ------
@@ -14,7 +15,9 @@ const create = (baseURL = 'https://api.spotify.com/v1/') => {
     baseURL,
     // here are some default headers
     headers: {
-      'Cache-Control': 'no-cache'
+      'Cache-Control': 'no-cache',
+      'Accept': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
     },
     // 10 second timeout...
     timeout: 10000
@@ -47,6 +50,23 @@ const create = (baseURL = 'https://api.spotify.com/v1/') => {
     limit: 10
   });
 
+  const login = (username, password, simulateWrong = true) => api.post('auth/login', 
+    queryString.stringify({
+      username: 'username',
+      password: "password"
+  }));
+  
+  const logout = () => {
+    return new Promise(function(resolve, reject) {
+        setTimeout(()=>{
+          resolve({
+          ok: true,
+          data: []
+          })
+        }, 1000);
+    });
+  }
+
 
   // ------
   // STEP 3
@@ -62,7 +82,9 @@ const create = (baseURL = 'https://api.spotify.com/v1/') => {
   //
   return {
     // a list of the API functions from step 2
-    search
+    search,
+    login,
+    logout
   }
 }
 

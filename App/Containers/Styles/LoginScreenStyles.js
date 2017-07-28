@@ -15,7 +15,8 @@ export default StyleSheet.create({
   logo: {
     width: 250,
     alignSelf: 'center',
-    resizeMode: 'contain'
+    resizeMode: 'contain',
+    padding: Metrics.doublePadding
   },
   container: {
   },
@@ -105,6 +106,9 @@ export default StyleSheet.create({
     marginTop: Metrics.doubleBaseMargin,
     alignSelf: 'center',
     resizeMode: 'contain'
+  },
+  errorText: {
+    color: Colors.fire50
   }
 
 
