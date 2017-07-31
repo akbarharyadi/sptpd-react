@@ -49,8 +49,8 @@ class UserStore {
       if (response.ok) {
         this.fetching = false;
         if(response.data.status == 'success') {
-          console.log('session:',response.data.session);
-          this.session = response.data.user;
+          console.log('session:',response.data.token);
+          this.session = response.data.token;
           this.msg = response.data.message;
         } else {
           this.session = null;

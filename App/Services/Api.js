@@ -20,7 +20,7 @@ const create = (baseURL = 'http://192.168.11.97/sptpd-api/web/') => {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
     },
     // 10 second timeout...
-    timeout: 10000
+    timeout: 100000
   })
 
   // Wrap api's addMonitor to allow the calling code to attach
@@ -52,8 +52,8 @@ const create = (baseURL = 'http://192.168.11.97/sptpd-api/web/') => {
 
   const login = (username, password, simulateWrong = true) => api.post('auth/login', 
     queryString.stringify({
-      username: 'username',
-      password: "password"
+      username: username,
+      password: password
   }));
   
   const logout = () => {

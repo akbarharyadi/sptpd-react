@@ -1,10 +1,34 @@
-import { StackNavigator } from 'react-navigation'
+import { StackNavigator, TabNavigator } from 'react-navigation'
 import LaunchScreen from '../Containers/LaunchScreen'
 import LoginScreen from '../Containers/LoginScreen'
 import MusicScreen from '../Containers/MusicScreen'
+import HomeScreen from '../Containers/HomeScreen'
+import SettingScreen from '../Containers/SettingScreen'
+import { Icon } from 'native-base';
 
 import { Colors } from '../Themes';
 import styles from './Styles/NavigationStyles'
+
+
+const nav_tab = TabNavigator(
+  // route config
+  {
+    Home: {
+      screen: HomeScreen,
+      //label: 'Home',
+      //icon: <Icon name={"home"} style={{color: this.props.selected ? '#857ce4' : '#afafa4'}} />,
+    },
+    Setting: {
+      screen: SettingScreen,
+      //label: 'Setting',
+    },
+  },
+  // navigator config
+  {
+    tabBarPosition: 'bottom', // where are the tabs shown
+    backBehavior: 'none', // back button doesn't take you to the initial tab
+  },
+);
 
 // Manifest of possible screens
 const PrimaryNav = StackNavigator({
@@ -19,6 +43,13 @@ const PrimaryNav = StackNavigator({
     screen: LoginScreen,
     navigationOptions: () => ({
 			title: 'Login'
+		})
+  },
+  TabScreen: {
+    screen: nav_tab,
+    navigationOptions: () => ({
+			title: 'Menu SPTPD',
+      header: null
 		})
   }
 }, {

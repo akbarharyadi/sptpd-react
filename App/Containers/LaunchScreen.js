@@ -21,8 +21,16 @@ export default class LaunchScreen extends React.Component {
 
   constructor(props){
     super(props);
+    const { userStore } = this.props;
     this.user = props.userStore;
-    this.search = 'ignite'
+  }
+
+  componentWillReact = () => {
+    const {navigate, setParams, state} = this.props.navigation
+    const { userStore } = this.props;
+    if (userStore.isLoggedIn()){
+      navigate("TabScreen", {title: "TabScreen", key: 'key'})
+    }
   }
 
   loginLogout = () => {

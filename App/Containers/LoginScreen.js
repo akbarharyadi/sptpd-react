@@ -73,7 +73,6 @@ class LoginScreen extends React.Component {
 
     userStore.login(user, password);
 
-
   };
 
   errorMessage = () => {
