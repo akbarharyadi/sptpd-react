@@ -20,8 +20,10 @@ class UserStore {
 
   @persist @observable session = null;
   @persist @observable msg = '';
+  @persist @observable dataWp = null;
   @observable hydrated = false;
   @observable fetching = false;
+  @observable fetching2 = false;
 
   isLoggedIn() {
 
@@ -78,6 +80,28 @@ class UserStore {
       this.session = null;
     })
 
+  }
+
+  getWp () {
+    if (this.dataWp === null && this.session != null){
+      this.fetching2 = true;
+      api.getWp(this.session).then((response) => {
+        console.log('response getWp ',response);
+        this.fetching2 = false;
+        if (response.ok) {
+          this.dataWp = response.data.dataWp;
+          console.log('data ok');
+        } else {
+          this.dataWp = null;
+        }
+      }).catch((e) => { 
+        this.fetching2 = false;
+        this.dataWp = null;
+        console.log(e);
+      });
+    }
+    console.log('data wp', this.dataWp);
+    return this.dataWp;
   }
 
 }

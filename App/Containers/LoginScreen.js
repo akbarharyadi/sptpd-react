@@ -131,7 +131,7 @@ class LoginScreen extends React.Component {
         autoCapitalize="none"
         autoCorrect={false}
         onChangeText={ user => this.setState({ user }) }
-        onSubmitEditing={() => this.refs.password.focus()}
+        onSubmitEditing={() => {() => this.refs['password'].focus()}}
       />
     );
   }

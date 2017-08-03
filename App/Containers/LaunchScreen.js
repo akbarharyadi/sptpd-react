@@ -25,14 +25,6 @@ export default class LaunchScreen extends React.Component {
     this.user = props.userStore;
   }
 
-  componentWillReact = () => {
-    const {navigate, setParams, state} = this.props.navigation
-    const { userStore } = this.props;
-    if (userStore.isLoggedIn()){
-      navigate("TabScreen", {title: "TabScreen", key: 'key'})
-    }
-  }
-
   loginLogout = () => {
 
     const { userStore } = this.props;
@@ -59,12 +51,55 @@ export default class LaunchScreen extends React.Component {
       />
     )
   };
+
+  menu = () => {
+
+    const { userStore } = this.props;
+    if (userStore.isLoggedIn()){
+      return (
+        <RoundedButton
+          text="Menu"
+          onPress={this.openMenu}
+        />
+      )
+    }
+  };
+
+  textWellcome = () => {
+    const { userStore } = this.props;
+    console.log('textWellcome', this.user.getWp())
+    if (userStore.isLoggedIn()){
+      if (userStore.fetching) {
+        return (
+          <Spinner style={styles.spinner} color={Colors.fire} />
+        );
+      };
+      return (
+        <Text style={styles.sectionText}>
+          Selamat datang<Text style={{fontWeight: "bold"}}> </Text> di E-SPTPD Purwakarta.{"\n"}
+          Silahkan klik tombol menu untuk mendaftarkan pajak.{"\n"}
+          Klik logout untuk logout akun Anda.
+        </Text>
+      )
+    }
+    return (
+      <Text style={styles.sectionText}>
+        Selamat datang di E-SPTPD Purwakarta.{"\n"}
+        Untuk melanjutkan silahkan login terlebih dahulu.
+      </Text>
+    )
+  }
+
   logout = () => {
     this.user.logout();
   };
   openLogin = () => {
     const {navigate, setParams, state} = this.props.navigation
-    navigate("LoginScreen", {title: "LoginScreen", parentKey: state.key})
+    navigate("LoginScreen", {title: "Login Page", parentKey: state.key})
+  }
+  openMenu = () => {
+    const { navigate, setParams, state } = this.props.navigation
+    navigate("TabScreen", { title: "Menu Utama", parentKey: state.key })
   }
   render () {
     return (
@@ -76,11 +111,9 @@ export default class LaunchScreen extends React.Component {
                 <Image source={Images.logoESptpd} style={styles.logo} resizeMode='stretch' />
               </View>
               <View style={styles.section} >
-                <Text style={styles.sectionText}>
-                  Selamat datang di E-SPTPD Purwakarta.{"\n"}
-                  Untuk melanjutkan silahkan login terlebih dahulu.
-                </Text>
+                { this.textWellcome() }
               </View>
+              { this.menu() }
               { this.loginLogout() }
             </Content>
           </ScrollView>

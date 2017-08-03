@@ -3,7 +3,7 @@ import apisauce from 'apisauce'
 import queryString from 'query-string'
 
 // our "constructor"
-const create = (baseURL = 'http://192.168.11.97/sptpd-api/web/') => {
+const create = (baseURL = 'http://192.168.12.225/sptpd-api/web/') => {
   // ------
   // STEP 1
   // ------
@@ -65,8 +65,9 @@ const create = (baseURL = 'http://192.168.11.97/sptpd-api/web/') => {
           })
         }, 1000);
     });
-  }
+  };
 
+  const getWp = (authKey) => api.get('api/user-data', {}, {headers: {'Authorization': 'Bearer ' + authKey}});
 
   // ------
   // STEP 3
@@ -84,7 +85,8 @@ const create = (baseURL = 'http://192.168.11.97/sptpd-api/web/') => {
     // a list of the API functions from step 2
     search,
     login,
-    logout
+    logout,
+    getWp
   }
 }
 
