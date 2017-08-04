@@ -20,7 +20,7 @@ class UserStore {
 
   @persist @observable session = null;
   @persist @observable msg = '';
-  @persist @observable dataWp = null;
+  @observable dataWp = null;
   @observable hydrated = false;
   @observable fetching = false;
   @observable fetching2 = false;
@@ -78,21 +78,22 @@ class UserStore {
     .then((response)=>{
       this.fetching = false;
       this.session = null;
+      this.dataWp = null;
     })
 
   }
 
   getWp () {
-    if (this.dataWp === null && this.session != null){
+    if (this.session != null){
       this.fetching2 = true;
       api.getWp(this.session).then((response) => {
-        console.log('response getWp ',response);
-        this.fetching2 = false;
+        console.log('response getWp ',response.data.dataWp);
         if (response.ok) {
+          this.fetching2 = false;
           this.dataWp = response.data.dataWp;
-          console.log('data ok');
         } else {
-          this.dataWp = null;
+          this.fetching2 = false;
+          this.dataWp = response.data.msg;
         }
       }).catch((e) => { 
         this.fetching2 = false;
@@ -100,8 +101,6 @@ class UserStore {
         console.log(e);
       });
     }
-    console.log('data wp', this.dataWp);
-    return this.dataWp;
   }
 
 }

@@ -67,13 +67,14 @@ export default class LaunchScreen extends React.Component {
 
   textWellcome = () => {
     const { userStore } = this.props;
-    console.log('textWellcome', this.user.getWp())
-    if (userStore.isLoggedIn()){
-      if (userStore.fetching) {
-        return (
+    if (userStore.dataWp == null){
+      userStore.getWp();
+      return (
           <Spinner style={styles.spinner} color={Colors.fire} />
         );
-      };
+    }
+    console.log('textWellcome', userStore.dataWp.npwpd);
+    if (userStore.isLoggedIn()){
       return (
         <Text style={styles.sectionText}>
           Selamat datang<Text style={{fontWeight: "bold"}}> </Text> di E-SPTPD Purwakarta.{"\n"}
