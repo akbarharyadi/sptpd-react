@@ -4,6 +4,8 @@ import LoginScreen from '../Containers/LoginScreen'
 import MusicScreen from '../Containers/MusicScreen'
 import HomeScreen from '../Containers/HomeScreen'
 import SettingScreen from '../Containers/SettingScreen'
+import TaxScreen from '../Containers/TaxScreen'
+import SubTaxScreen from '../Containers/SubTaxScreen'
 import { Icon } from 'native-base';
 
 import { Colors } from '../Themes';
@@ -48,8 +50,19 @@ const PrimaryNav = StackNavigator({
   TabScreen: {
     screen: nav_tab,
     navigationOptions: () => ({
-			title: 'Menu SPTPD',
-      header: null
+			title: 'Menu SPTPD'
+		})
+  },
+  TaxScreen: {
+    screen: TaxScreen,
+    navigationOptions: () => ({
+			title: 'Menu SPTPD'
+		})
+  },
+  SubTaxScreen: {
+    screen: SubTaxScreen,
+    navigationOptions: () => ({
+			title: 'Menu SPTPD'
 		})
   }
 }, {

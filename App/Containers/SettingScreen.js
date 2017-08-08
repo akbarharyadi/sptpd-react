@@ -7,7 +7,7 @@ import {
  } from 'react-native'
  class SettingScreen extends React.Component {
   render() {
-    return <Text>List of all contacts</Text>
+    return <Text>Setting</Text>
   }
 }
 export default SettingScreen;

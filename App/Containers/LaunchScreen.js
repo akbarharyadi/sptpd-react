@@ -5,8 +5,6 @@ import { Container, Content, Thumbnail, Text } from 'native-base';
 
 import { observer, inject } from 'mobx-react/native';
 
-import { BlurView, VibrancyView } from 'react-native-blur';
-
 import RoundedButton from '../Components/RoundedButton';
 import Spinner from '../Components/Spinner';
 
@@ -67,17 +65,17 @@ export default class LaunchScreen extends React.Component {
 
   textWellcome = () => {
     const { userStore } = this.props;
-    if (userStore.dataWp == null){
-      userStore.getWp();
-      return (
-          <Spinner style={styles.spinner} color={Colors.fire} />
-        );
-    }
-    console.log('textWellcome', userStore.dataWp.npwpd);
     if (userStore.isLoggedIn()){
+      if (userStore.dataWp == null){
+        userStore.getWp();
+        return (
+            <Spinner style={styles.spinner} color={Colors.fire} />
+          );
+      }
+      console.log('textWellcome', userStore.dataWp.npwpd);
       return (
         <Text style={styles.sectionText}>
-          Selamat datang<Text style={{fontWeight: "bold"}}> </Text> di E-SPTPD Purwakarta.{"\n"}
+          Selamat datang,{"\n"}<Text style={{fontWeight: "bold"}}> {userStore.dataWp.nm_wp}({userStore.dataWp.npwpd}) </Text>{"\n"}di E-SPTPD Purwakarta.{"\n"}
           Silahkan klik tombol menu untuk mendaftarkan pajak.{"\n"}
           Klik logout untuk logout akun Anda.
         </Text>

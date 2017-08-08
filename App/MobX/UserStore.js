@@ -36,8 +36,6 @@ class UserStore {
     this.hydrated = true;
 
     console.log('hydrateComplete');
-
-
   }
 
   login(username, password) {
@@ -87,7 +85,7 @@ class UserStore {
     if (this.session != null){
       this.fetching2 = true;
       api.getWp(this.session).then((response) => {
-        console.log('response getWp ',response.data.dataWp);
+        console.log('response getWp ',response);
         if (response.ok) {
           this.fetching2 = false;
           this.dataWp = response.data.dataWp;

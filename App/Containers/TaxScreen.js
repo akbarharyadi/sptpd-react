@@ -18,36 +18,37 @@ import {
 @inject('userStore')
 @inject('taxStore')
 @observer
-class HomeScreen extends React.Component {
+class TaxScreen extends React.Component {
   constructor(props) {
     super(props);
     const {userStore, taxStore} = this.props;
     this.user = props.userStore;
-    taxStore.years = null;
+    taxStore.taxes = null;
   }
 
-  menuYears = () => {
+  menuTax = () => {
     const {userStore, taxStore} = this.props;
-    if (taxStore.years == null) {
-      taxStore.taxYear(userStore.session);
+    if (taxStore.taxes == null) {
+      taxStore.getTaxes(userStore.session, this.props.navigation.state.params.year);
       return (<Spinner style={styles.spinner} color={Colors.fire}/>);
     }
-    console.log('year', taxStore.years.slice());
+    console.log('tax', taxStore.taxes.slice());
     return (
       <List
         dataArray={taxStore
-        .years
+        .taxes
         .slice()}
-        renderRow={(year) => <ListItem button onPress={() => {
+        renderRow={(taxes) => <ListItem button onPress={() => {
           const {navigate, setParams, state} = this.props.navigation
-          navigate("TaxScreen", {
-            title: "Pilih Pajak",
+          navigate("SubTaxScreen", {
+            title: "Pilih Sub Pajak",
             parentKey: state.key,
-            year: year.tahun
+            taxes: taxes.kd_ayt,
+            year: this.props.navigation.state.params.year
           })
       }}>
         <Body>
-          <Text>{year.tahun}</Text>
+          <Text>{taxes.nm_ayt}</Text>
         </Body>
         <Right>
           <Icon name="arrow-forward" style={{
@@ -64,10 +65,10 @@ class HomeScreen extends React.Component {
         <Content>
           <Card>
             <CardItem header>
-              <Text>Pilih Tahun Pajak : </Text>
+              <Text>Pilih Pajak : </Text>
             </CardItem>
             <CardItem>
-              {this.menuYears()}
+              {this.menuTax()}
             </CardItem>
           </Card>
         </Content>
@@ -75,4 +76,4 @@ class HomeScreen extends React.Component {
     )
   }
 }
-export default HomeScreen;
+export default TaxScreen;
