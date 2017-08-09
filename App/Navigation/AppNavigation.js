@@ -6,6 +6,7 @@ import HomeScreen from '../Containers/HomeScreen'
 import SettingScreen from '../Containers/SettingScreen'
 import TaxScreen from '../Containers/TaxScreen'
 import SubTaxScreen from '../Containers/SubTaxScreen'
+import AddTaxScreen from '../Containers/AddTaxScreen'
 import { Icon } from 'native-base';
 
 import { Colors } from '../Themes';
@@ -63,6 +64,12 @@ const PrimaryNav = StackNavigator({
     screen: SubTaxScreen,
     navigationOptions: () => ({
 			title: 'Menu SPTPD'
+		})
+  },
+  AddTaxScreen: {
+    screen: AddTaxScreen,
+    navigationOptions: () => ({
+			title: 'Rekam SPTPD'
 		})
   }
 }, {
