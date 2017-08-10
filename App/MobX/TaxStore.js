@@ -16,6 +16,7 @@ class TaxStore {
   @observable years = null;
   @observable taxes = null;
   @observable subtaxes = null;
+  @observable subtaxesfromtax = null;
   @observable msg = null;
   @observable hydrated = false;
 
@@ -70,6 +71,28 @@ class TaxStore {
         if (response.ok) {
           if (response.data.status == 'success') {
             this.subtaxes = response.data.dataSubTaxes;
+          } else {
+            this.msg = response.data.msg;
+          }
+        } else {
+          this.msg = response.problem;
+        }
+      })
+      .catch((e) => {
+        this.msg = e;
+      });
+  }
+
+  getSubTaxesFromTax(authkey, year, kd_ayt) {
+    console.log('year', year);
+    console.log('kd_ayt', kd_ayt);
+    api
+      .getSubTaxesFromTax(authkey, year, kd_ayt)
+      .then((response) => {
+        console.log('response sub taxes from tax', response);
+        if (response.ok) {
+          if (response.data.status == 'success') {
+            this.subtaxesfromtax = response.data.dataSubTaxes;
           } else {
             this.msg = response.data.msg;
           }

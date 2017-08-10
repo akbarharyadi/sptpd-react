@@ -11,7 +11,8 @@ import {
   Image,
   KeyboardAvoidingView,
   TextInput,
-  Keyboard
+  Keyboard,
+  Alert
 } from 'react-native';
 import {
   Form,
@@ -27,6 +28,7 @@ import {
   Text,
   Icon,
   Card,
+  InputGroup,
   CardItem, Picker, ActionSheet,
 } from 'native-base';
 import RoundedButton from '../Components/RoundedButton';
@@ -40,6 +42,7 @@ class AddTaxScreen extends React.Component {
     const { userStore, taxStore } = this.props;
     this.user = props.userStore;
     console.log('year', props.navigation.state.params.year);
+    taxStore.subtaxesfromtax = null;
     this.state = {
       th_spt: props.navigation.state.params.year.toString(),
       npwpd: userStore.dataWp.npwpd,
@@ -51,7 +54,8 @@ class AddTaxScreen extends React.Component {
       tgl_awal: "",
       tgl_akhir: "",
       omzet: "",
-      jml_pajak: ""
+      jml_pajak: "",
+      tarif: ""
     }
   }
 
@@ -61,11 +65,21 @@ class AddTaxScreen extends React.Component {
 
   handleSubmit = () => {
 
-    const { userStore } = this.props;
+    // Works on both iOS and Android
+    Alert.alert(
+      'Information',
+      'Database access denied',
+      [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ],
+      { cancelable: false }
+    )
 
-    const { user, password } = this.state;
+    // const { userStore } = this.props;
 
-    userStore.login(user, password);
+    // const { user, password } = this.state;
+
+    // taxStore.saveData(user, password);
 
   };
 
@@ -146,29 +160,141 @@ class AddTaxScreen extends React.Component {
     );
   }
 
-  onValueChange2(value: string) {
+  onValueChange2 = (value) => {
     this.setState({
       selected: value
     });
   }
-  
+
+  setTaxes = (text) => {
+    const { userStore, taxStore } = this.props;
+    this.setState({id_ayt: text});
+    var tarif = taxStore.subtaxesfromtax.filter(function (taxes) { return taxes.id_ayt == text });
+    console.log('tarif', tarif[0].tarifpr);
+    this.setState({tarif: tarif[0].tarifpr});
+  }
+
   renderRekeningField = () => {
+    const { userStore, taxStore } = this.props;
+    if (taxStore.subtaxesfromtax == null) {
+      taxStore.getSubTaxesFromTax(userStore.session, this.props.navigation.state.params.year, this.props.navigation.state.params.taxes);
+      return (<Spinner style={styles.spinner} color={Colors.fire} />);
+    }
     return (
-      <View style={{marginLeft: 10, borderBottomWidth:1}}>
+      <View style={{ marginLeft: 10, marginTop: 5, borderBottomWidth: 1, borderBottomColor: '#e7e7e7' }}>
         <Picker
           mode="dropdown"
           placeholder="Pilih Jenis Rekening"
-          selectedValue={this.state.selected}
-          onValueChange={this.onValueChange2.bind(this)}
+          selectedValue={this.state.id_ayt}
+          onValueChange={(text) => this.setTaxes(text)}
         >
-          <Item label="Wallet" value="key0" />
-          <Item label="ATM Card" value="key1" />
-          <Item label="Debit Card" value="key2" />
-          <Item label="Credit Card" value="key3" />
-          <Item label="Net Banking" value="key4" />
+          <Item value={0} label={' -- Pilih Jenis Rekening -- '} key={999} />
+          {taxStore.subtaxesfromtax.slice().map((l, i) => { return <Item value={l.id_ayt} label={l.nm_ayt} key={i} /> })}
         </Picker>
       </View>
     )
+  }
+
+  renderPeroidField = () => {
+    return (
+      <View style={{ marginLeft: 10, marginTop: 15, borderBottomWidth: 1, borderBottomColor: '#e7e7e7' }}>
+        <InputGroup>
+          <DatePicker
+            date={this.state.tgl_awal}
+            mode="date"
+            placeholder="Pilih Periode Awal"
+            format="DD-MM-YYYY"
+            confirmBtnText="Ok"
+            cancelBtnText="Batal"
+            androidMode="spinner"
+            customStyles={{
+              dateIcon: {
+                position: 'absolute',
+                left: 0,
+                top: 4,
+                marginLeft: 0
+              },
+              dateInput: {
+                marginLeft: 36,
+                borderWidth: 0
+              }
+            }}
+            onDateChange={(date) => {
+              this.setState({ tgl_awal: date });
+              var parts = date.split('-');
+              var now = new Date(parts[2], parts[1] - 1, parts[0]);
+              var lastDayOfTheMonth = new Date(1900 + now.getYear(), now.getMonth() + 1, 0);
+              if (date != '') {
+                this.setState({ tgl_akhir: lastDayOfTheMonth });
+              }
+            }}
+          />
+          <DatePicker
+            date={this.state.tgl_akhir}
+            mode="date"
+            placeholder="Pilih Periode Akhir"
+            format="DD-MM-YYYY"
+            confirmBtnText="Ok"
+            cancelBtnText="Batal"
+            androidMode="spinner"
+            customStyles={{
+              dateIcon: {
+                position: 'absolute',
+                left: 0,
+                top: 4,
+                marginLeft: 0
+              },
+              dateInput: {
+                marginLeft: 36,
+                borderWidth: 0
+              }
+            }}
+            onDateChange={(date) => { 
+              this.setState({ tgl_akhir: date }) 
+            }}
+          />
+        </InputGroup>
+      </View>
+    )
+  }
+
+  calculateOmzet = (text) => {
+    this.setState({omzet: text});
+    console.log('tarif', this.state.tarif);
+    var jml_pajak = parseFloat(text) * parseFloat(this.state.tarif);
+    console.log('jml_numeric', jml_pajak);
+    console.log('jml_string', jml_pajak.toString());
+    this.setState({jml_pajak: jml_pajak});
+  }
+
+  renderOmzetField = () => {
+    return (
+      <Input
+        ref="omzet"
+        value={this.state.omzet}
+        editable={true}
+        keyboardType = 'numeric'
+        returnKeyType="next"
+        autoCapitalize="none"
+        onChangeText = {(text)=> this.calculateOmzet(text) }
+        autoCorrect={false}
+      />
+    );
+  }
+
+
+  renderJmlPajakField = () => {
+    return (
+      <Input
+        ref="jml_pajak"
+        value={this.state.jml_pajak.toString()}
+        editable={false}
+        keyboardType = 'default'
+        returnKeyType="next"
+        autoCapitalize="none"
+        autoCorrect={false}
+      />
+    );
   }
 
   createForm = () => {
@@ -190,6 +316,15 @@ class AddTaxScreen extends React.Component {
               {this.renderNamaWpField()}
             </Item>
             {this.renderRekeningField()}
+            {this.renderPeroidField()}
+            <Item floatingLabel>
+              <Label>Omzet</Label>
+              {this.renderOmzetField()}
+            </Item>
+            <Item floatingLabel>
+              <Label>Jumlah Pajak</Label>
+              {this.renderJmlPajakField()}
+            </Item>
             {this.loginButton()}
           </Form>
         </View>
@@ -201,14 +336,14 @@ class AddTaxScreen extends React.Component {
   render() {
     return (
       <View style={styles.mainContainer}>
+        
         <ScrollView
           style={styles.container}
           keyboardShouldPersistTaps="always"
         >
+          
           <KeyboardAvoidingView behavior="position">
-
             {this.createForm()}
-
           </KeyboardAvoidingView>
         </ScrollView>
       </View>

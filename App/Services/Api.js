@@ -80,6 +80,12 @@ const create = (baseURL = 'https://sptpd-api.herokuapp.com') => {
         }
     });
 
+    const getSubTaxesFromTax = (authKey, year, kd_ayt) => api.post('api/get-sub-taxes-from-tax', queryString.stringify({year: year, kd_ayat: kd_ayt}), {
+        headers: {
+            'Authorization': 'Bearer ' + authKey
+        }
+    });
+
     // ------ STEP 3 ------
     //
     // Return back a collection of functions that we would consider our interface.
@@ -97,7 +103,8 @@ const create = (baseURL = 'https://sptpd-api.herokuapp.com') => {
         getWp,
         getYear,
         getTaxes,
-        getSubTaxes
+        getSubTaxes,
+        getSubTaxesFromTax
     }
 }
 
