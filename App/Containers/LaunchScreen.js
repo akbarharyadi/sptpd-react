@@ -1,7 +1,7 @@
 import React from 'react'
-import { ScrollView, Image, View } from 'react-native'
+import { ScrollView, Image, View, Text } from 'react-native'
 import { Colors, Images } from '../Themes'
-import { Container, Content, Thumbnail, Text } from 'native-base';
+import { Container, Content, Thumbnail } from 'native-base';
 
 import { observer, inject } from 'mobx-react/native';
 
@@ -103,7 +103,7 @@ export default class LaunchScreen extends React.Component {
   render () {
     return (
       <Image source={Images.logoBgSptpd} style={styles.backgroundImage}>
-        <Container style={styles.mainContainer}>
+        <View style={styles.mainContainer}>
           <ScrollView style={styles.container}>
             <Content>
               <View style={styles.centered}>
@@ -116,7 +116,7 @@ export default class LaunchScreen extends React.Component {
               { this.loginLogout() }
             </Content>
           </ScrollView>
-        </Container>
+        </View>
       </Image>
       /*<View style={styles.mainContainer}>
         <ScrollView style={styles.container}>
