@@ -33,7 +33,8 @@ const metrics = {
     small: 20,
     medium: 40,
     large: 60,
-    logo: 200
+    logoHeight: 150,
+    logoWidth: 200
   }
 }
 

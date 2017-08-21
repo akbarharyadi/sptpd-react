@@ -7,8 +7,8 @@ class NavigationStore {
   @observable.ref navigationState = {
     index: 0,
     routes: [
-      { key: "LaunchScreen", routeName: "LaunchScreen" },
-      // { key: "LoginScreen", routeName: "LoginScreen" }
+      // { key: "LaunchScreen", routeName: "LaunchScreen" },
+      { key: "LoginScreen", routeName: "LoginScreen" }
     ],
   }
 

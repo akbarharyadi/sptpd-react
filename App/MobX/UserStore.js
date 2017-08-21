@@ -39,53 +39,60 @@ class UserStore {
   }
 
   login(username, password) {
-    
-    console.log('email',username);
-    console.log('password',password);
+
+    this.msg = '';
+    console.log('email', username);
+    console.log('password', password);
     this.fetching = true;
-    api.login(username, password)
-    .then((response) => {
-      console.log('response login',response);
-      if (response.ok) {
-        this.fetching = false;
-        if(response.data.status == 'success') {
-          console.log('session:',response.data.token);
-          this.session = response.data.token;
-          this.msg = response.data.message;
-        } else {
+    if (username != '' && password != '') {
+      api.login(username, password)
+        .then((response) => {
+          console.log('response login', response);
+          if (response.ok) {
+            this.fetching = false;
+            if (response.data.status == 'success') {
+              console.log('session:', response.data.token);
+              this.session = response.data.token;
+              this.msg = response.data.message;
+            } else {
+              this.session = null;
+              this.msg = response.data.message;
+            }
+          } else {
+            this.fetching = false;
+            this.session = null;
+            this.msg = response.problem;
+          }
+        })
+        .catch((e) => {
+          this.fetching = false;
           this.session = null;
-          this.msg = response.data.message;
-        }
-      }else{
-        this.fetching = false;
-        this.session = null;
-        this.msg = response.problem;
-      }
-    })
-    .catch((e) => { 
-      this.fetching = false;
+          console.log(e)
+          this.msg = e;
+        });
+    } else {
       this.session = null;
-      console.log(e)
-      this.msg = e;
-    });
+      this.msg = 'username dan password kosong';
+      this.fetching = false;
+    }
   }
 
-  logout () {
+  logout() {
     this.fetching = true;
     api.logout()
-    .then((response)=>{
-      this.fetching = false;
-      this.session = null;
-      this.dataWp = null;
-    })
+      .then((response) => {
+        this.fetching = false;
+        this.session = null;
+        this.dataWp = null;
+      })
 
   }
 
-  getWp () {
-    if (this.session != null){
+  getWp() {
+    if (this.session != null) {
       this.fetching2 = true;
       api.getWp(this.session).then((response) => {
-        console.log('response getWp ',response);
+        console.log('response getWp ', response);
         if (response.ok) {
           this.fetching2 = false;
           this.dataWp = response.data.dataWp;
@@ -93,7 +100,7 @@ class UserStore {
           this.fetching2 = false;
           this.dataWp = response.data.msg;
         }
-      }).catch((e) => { 
+      }).catch((e) => {
         this.fetching2 = false;
         this.dataWp = null;
         console.log(e);

@@ -45,7 +45,8 @@ const PrimaryNav = StackNavigator({
   LoginScreen: {
     screen: LoginScreen,
     navigationOptions: () => ({
-			title: 'Login'
+			title: 'Login',
+      header: null
 		})
   },
   TabScreen: {

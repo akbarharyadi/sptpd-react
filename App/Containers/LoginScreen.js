@@ -7,14 +7,12 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Keyboard
- } from 'react-native';
+} from 'react-native';
 
- import { Form, Input, Item, Label, Card, CardItem, Body, Container, Content } from 'native-base';
+import { Form, Input, Item, Label, Card, CardItem, Body, Container, Content, Icon } from 'native-base';
 
 import Spinner from '../Components/Spinner';
 
-
-// import { Card, CardItem, Content, Body } from 'native-base';
 import I18n from 'react-native-i18n'
 import Animatable from 'react-native-animatable'
 
@@ -37,40 +35,27 @@ class LoginScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    
     const { userStore } = this.props;
-
-    userStore.msg = '';
-
     this.state = {
-
       user: '',
       password: ''
-
-
     };
   }
 
   componentWillReact = () => {
-
-
     console.log('componentWillReact LoginScreen');
     const { navigation, userStore } = this.props;
 
-    console.log('logged in:',userStore.session);
-    if (userStore.isLoggedIn()){
-
+    console.log('logged in:', userStore.session);
+    if (userStore.isLoggedIn()) {
       navigation.goBack();
-
     }
   }
 
   handleSubmit = () => {
 
     const { userStore } = this.props;
-
     const { user, password } = this.state;
-
     userStore.login(user, password);
 
   };
@@ -79,15 +64,11 @@ class LoginScreen extends React.Component {
     const { userStore } = this.props;
     if (userStore.msg) {
       return (
-              <Card transparent>
-                <CardItem>
-                  <Body>
-                    <Text style={[styles.errorMessage, styles.center, styles.errorText]}>
-                      {userStore.msg}
-                    </Text>
-                  </Body>
-                </CardItem>
-              </Card>
+        <View style={styles.errorContainer}>
+          <Text style={[styles.errorMessage, styles.center, styles.errorText]}>
+            {userStore.msg}
+          </Text>
+        </View>
       );
     }
   };
@@ -126,12 +107,13 @@ class LoginScreen extends React.Component {
         ref="user"
         value={user}
         editable={!userStore.fetching}
+        placeholder='Username'
         keyboardType="default"
         returnKeyType="next"
         autoCapitalize="none"
         autoCorrect={false}
-        onChangeText={ user => this.setState({ user }) }
-        onSubmitEditing={() => {() => this.refs['password'].focus()}}
+        onChangeText={user => this.setState({ user })}
+        onSubmitEditing={() => { () => this.refs.password.focus() }}
       />
     );
   }
@@ -148,13 +130,14 @@ class LoginScreen extends React.Component {
         value={password}
         editable={!userStore.fetching}
         keyboardType='default'
+        placeholder='Password'
         returnKeyType={'go'}
         autoCapitalize='none'
         autoCorrect={false}
         secureTextEntry
         onChangeText={password => this.setState({ password })}
-        onSubmitEditing={()=>{this.handleSubmit()}}
-         />
+        onSubmitEditing={() => { this.handleSubmit() }}
+      />
     )
   }
 
@@ -165,16 +148,16 @@ class LoginScreen extends React.Component {
       <View>
         <View style={styles.form}>
           <Form>
-              <Item floatingLabel>
-                <Label>Username</Label>
-                {this.renderUserField()}
-              </Item>
-              <Item floatingLabel last>
-                <Label>Password</Label>
-                {this.renderPasswordField()}
-              </Item>
-              {this.errorMessage()}
-              {this.loginButton()}
+            <Item underline>
+              <Icon active name='person' />
+              {this.renderUserField()}
+            </Item>
+            <Item underline>
+              <Icon active name='lock' />
+              {this.renderPasswordField()}
+            </Item>
+            {this.errorMessage()}
+            {this.loginButton()}
           </Form>
         </View>
       </View>
@@ -188,24 +171,25 @@ class LoginScreen extends React.Component {
     console.log(userStore.session);
 
     return (
-      <View style={styles.mainContainer}>
-        <ScrollView
-          style={styles.container}
-          keyboardShouldPersistTaps="always"
-        >
-          <KeyboardAvoidingView behavior="position">
-            <View style={{paddingTop: 15}}>
-              <Image
-                source={Images.logoPemda}
-                style={styles.logo}
-              />
-            </View>
-
-            {this.createForm()}
-
-          </KeyboardAvoidingView>
-        </ScrollView>
-      </View>
+      <Image source={Images.bgCloud} style={styles.backgroundImage}>
+        <View style={styles.mainContainer}>
+          <ScrollView
+            style={styles.container}
+            keyboardShouldPersistTaps="always"
+          >
+            <KeyboardAvoidingView behavior="padding">
+              <View style={{ paddingTop: 50, paddingBottom: 70 }}>
+                <Image source={Images.logoESptpd} style={styles.logo} />
+                <Image
+                  source={Images.logoPemda}
+                  style={styles.logo}
+                />
+              </View>
+              {this.createForm()}
+            </KeyboardAvoidingView>
+          </ScrollView>
+        </View>
+      </Image>
     );
   }
 }

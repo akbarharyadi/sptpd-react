@@ -7,7 +7,6 @@ export default StyleSheet.create({
   ...ApplicationStyles.screen,
   mainContainer: {
     flex: 1,
-    backgroundColor: Colors.background,
     marginTop: 0,
     alignItems: 'stretch',
     justifyContent: 'center'
@@ -22,7 +21,7 @@ export default StyleSheet.create({
   },
   form: {
     // backgroundColor: Colors.snow,
-    // borderRadius: 4
+    borderRadius: 6,
     padding: Metrics.doublePadding
   },
   boxGoogle: {
@@ -109,7 +108,15 @@ export default StyleSheet.create({
   },
   errorText: {
     color: Colors.fire50
+  },
+  errorContainer: {
+    padding: Metrics.doublePadding,
+    margin: Metrics.doubleBaseMargin
+  },
+  backgroundImage: {
+    flex: 1,
+    // remove width and height to override fixed static size
+    width: null,
+    height: null,
   }
-
-
 });
