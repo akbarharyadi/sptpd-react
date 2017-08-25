@@ -177,6 +177,7 @@ class AddTaxScreen extends React.Component {
   renderRekeningField = () => {
     const { userStore, taxStore } = this.props;
     if (taxStore.subtaxesfromtax == null) {
+      console.log('kd ayat screen', this.props.navigation.state.params.taxes);
       taxStore.getSubTaxesFromTax(userStore.session, this.props.navigation.state.params.year, this.props.navigation.state.params.taxes);
       return (<Spinner style={styles.spinner} color={Colors.fire} />);
     }

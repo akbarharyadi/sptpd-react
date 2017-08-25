@@ -17,16 +17,22 @@ import styles from './Styles/LaunchScreenStyles'
 @observer
 export default class LaunchScreen extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     const { userStore } = this.props;
     this.user = props.userStore;
   }
 
+  componentWillReact = () => {
+    console.log('componentWillReact LaunchScreen');
+    const { userStore } = this.props;
+    console.log('logged in:', userStore.session);
+  }
+
   loginLogout = () => {
 
     const { userStore } = this.props;
-    if (userStore.isLoggedIn()){
+    if (userStore.isLoggedIn()) {
 
       if (userStore.fetching) {
         return (
@@ -53,10 +59,10 @@ export default class LaunchScreen extends React.Component {
   menu = () => {
 
     const { userStore } = this.props;
-    if (userStore.isLoggedIn()){
+    if (userStore.isLoggedIn()) {
       return (
         <RoundedButton
-          text="Menu"
+          text="Pendataan"
           onPress={this.openMenu}
         />
       )
@@ -65,19 +71,17 @@ export default class LaunchScreen extends React.Component {
 
   textWellcome = () => {
     const { userStore } = this.props;
-    if (userStore.isLoggedIn()){
-      if (userStore.dataWp == null){
+    if (userStore.isLoggedIn()) {
+      if (userStore.dataWp == null) {
         userStore.getWp();
         return (
-            <Spinner style={styles.spinner} color={Colors.fire} />
-          );
+          <Spinner style={styles.spinner} color={Colors.fire} />
+        );
       }
       console.log('textWellcome', userStore.dataWp.npwpd);
       return (
         <Text style={styles.sectionText}>
-          Selamat datang,{"\n"}<Text style={{fontWeight: "bold"}}> {userStore.dataWp.nm_wp}({userStore.dataWp.npwpd}) </Text>{"\n"}di E-SPTPD Purwakarta.{"\n"}
-          Silahkan klik tombol menu untuk mendaftarkan pajak.{"\n"}
-          Klik logout untuk logout akun Anda.
+          Selamat datang,{"\n"}<Text style={{ fontWeight: "bold" }}> {userStore.dataWp.nm_wp}{"\n"}({userStore.dataWp.npwpd}) </Text>{"\n"}di E-SPTPD Purwakarta.{"\n"}
         </Text>
       )
     }
@@ -93,27 +97,32 @@ export default class LaunchScreen extends React.Component {
     this.user.logout();
   };
   openLogin = () => {
-    const {navigate, setParams, state} = this.props.navigation
-    navigate("LoginScreen", {title: "Login Page", parentKey: state.key})
+    const { navigate, setParams, state } = this.props.navigation
+    navigate("LoginScreen", { title: "Login Page", parentKey: state.key })
   }
   openMenu = () => {
     const { navigate, setParams, state } = this.props.navigation
-    navigate("TabScreen", { title: "Menu Utama", parentKey: state.key })
+    navigate("YearScreen", { title: "Menu Utama", parentKey: state.key })
   }
-  render () {
+  render() {
     return (
-      <Image source={Images.logoBgSptpd} style={styles.backgroundImage}>
+      <Image source={Images.bgCloud} style={styles.backgroundImage}>
         <View style={styles.mainContainer}>
-          <ScrollView style={styles.container}>
+          <ScrollView style={styles.container}
+            keyboardShouldPersistTaps="always">
             <Content>
               <View style={styles.centered}>
-                <Image source={Images.logoESptpd} style={styles.logo} resizeMode='stretch' />
+                  <Image source={Images.logoESptpd} style={styles.logo} />
+                  <Image
+                    source={Images.logoPemda}
+                    style={styles.logo}
+                  />
               </View>
               <View style={styles.section} >
-                { this.textWellcome() }
+                {this.textWellcome()}
               </View>
-              { this.menu() }
-              { this.loginLogout() }
+              {this.menu()}
+              {this.loginLogout()}
             </Content>
           </ScrollView>
         </View>

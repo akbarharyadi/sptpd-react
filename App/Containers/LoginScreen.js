@@ -36,6 +36,7 @@ class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
     const { userStore } = this.props;
+    userStore.msg = '';
     this.state = {
       user: '',
       password: ''
@@ -44,12 +45,13 @@ class LoginScreen extends React.Component {
 
   componentWillReact = () => {
     console.log('componentWillReact LoginScreen');
-    const { navigation, userStore } = this.props;
-
+    const { userStore } = this.props;
     console.log('logged in:', userStore.session);
     if (userStore.isLoggedIn()) {
-      navigation.goBack();
+      const { navigate, setParams, state } = this.props.navigation
+      navigate("LaunchScreen", { title: "Home Page", parentKey: state.key })
     }
+    
   }
 
   handleSubmit = () => {

@@ -75,7 +75,7 @@ class SubTaxScreen extends React.Component {
         <Content>
           <Card>
             <CardItem header>
-              <Text>Pilih Pajak :
+              <Text>Pilih Sub Pajak :
               </Text>
             </CardItem>
             <CardItem>

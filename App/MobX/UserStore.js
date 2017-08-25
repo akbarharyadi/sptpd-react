@@ -26,20 +26,17 @@ class UserStore {
   @observable fetching2 = false;
 
   isLoggedIn() {
-
     return this.session;
-
   }
 
 
   @action hydrateComplete() {
     this.hydrated = true;
-
+    this.msg = '';
     console.log('hydrateComplete');
   }
 
   login(username, password) {
-
     this.msg = '';
     console.log('email', username);
     console.log('password', password);
@@ -53,7 +50,7 @@ class UserStore {
             if (response.data.status == 'success') {
               console.log('session:', response.data.token);
               this.session = response.data.token;
-              this.msg = response.data.message;
+              this.msg = '';
             } else {
               this.session = null;
               this.msg = response.data.message;

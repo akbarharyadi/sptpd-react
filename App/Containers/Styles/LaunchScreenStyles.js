@@ -4,16 +4,22 @@ import { Metrics, ApplicationStyles } from '../../Themes/'
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
-    paddingBottom: Metrics.baseMargin
+  },
+  mainContainer: {
+    flex: 1,
+    marginTop: 0,
+    alignItems: 'stretch',
+    justifyContent: 'center'
   },
   logo: {
-    marginTop: Metrics.doubleSection,
-    height: Metrics.images.logoHeight,
-    width: Metrics.images.logoWidth,
-    resizeMode: 'contain'
+    width: 250,
+    alignSelf: 'center',
+    resizeMode: 'contain',
+    padding: Metrics.doublePadding
   },
   centered: {
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingTop: 50
   },
   backgroundImage: {
     flex: 1,

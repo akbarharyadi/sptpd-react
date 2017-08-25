@@ -2,7 +2,7 @@ import { StackNavigator, TabNavigator } from 'react-navigation'
 import LaunchScreen from '../Containers/LaunchScreen'
 import LoginScreen from '../Containers/LoginScreen'
 import MusicScreen from '../Containers/MusicScreen'
-import HomeScreen from '../Containers/HomeScreen'
+import YearScreen from '../Containers/YearScreen'
 import SettingScreen from '../Containers/SettingScreen'
 import TaxScreen from '../Containers/TaxScreen'
 import SubTaxScreen from '../Containers/SubTaxScreen'
@@ -16,8 +16,8 @@ import styles from './Styles/NavigationStyles'
 const nav_tab = TabNavigator(
   // route config
   {
-    Home: {
-      screen: HomeScreen,
+    Year: {
+      screen: YearScreen,
       //label: 'Home',
       //icon: <Icon name={"home"} style={{color: this.props.selected ? '#857ce4' : '#afafa4'}} />,
     },
@@ -69,6 +69,12 @@ const PrimaryNav = StackNavigator({
   },
   AddTaxScreen: {
     screen: AddTaxScreen,
+    navigationOptions: () => ({
+			title: 'Rekam SPTPD'
+		})
+  },
+  YearScreen: {
+    screen: YearScreen,
     navigationOptions: () => ({
 			title: 'Rekam SPTPD'
 		})
